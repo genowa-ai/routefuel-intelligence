@@ -1,0 +1,118 @@
+{
+  "info": {
+    "_postman_id": "15b2b5c9-5d7b-4a3e-a2d2-ec1ec3c3ca41",
+    "name": "RouteFuel Intelligence API Verification",
+    "description": "Health check and route-and-fuel estimate API requests. Import after running Django locally.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Health check returns 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Health status is ok', function () { pm.expect(pm.response.json().status).to.eql('ok'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Plan route and fuel stops",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"Austin, TX\",\n  \"finish_location\": \"Dallas, TX\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/route-fuel/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "route-fuel"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Route-planning request returns HTTP 200', function () { pm.response.to.have.status(200); });",
+              "if (pm.response.code === 200) {",
+              "  const body = pm.response.json();",
+              "  pm.test('Includes valid route geometry', function () { pm.expect(body.route.geometry.type).to.eql('LineString'); });",
+              "  pm.test('Includes fuel plan and estimated cost', function () { pm.expect(body.fuel_plan).to.have.property('estimated_total_fuel_cost_usd'); });",
+              "  pm.test('Includes valid map-ready GeoJSON', function () {",
+              "    pm.expect(body.map.type).to.eql('FeatureCollection');",
+              "    pm.expect(body.map.features).to.be.an('array');",
+              "    pm.expect(body.map.features.length).to.be.greaterThan(0);",
+              "    body.map.features.forEach(function (feature) {",
+              "      pm.expect(feature.type).to.eql('Feature');",
+              "      pm.expect(feature).to.have.property('geometry');",
+              "    });",
+              "  });",
+              "  pm.test('Segment costs reconcile to the reported total', function () {",
+              "    const segments = body.fuel_plan.segment_estimates || [];",
+              "    pm.expect(segments.length).to.be.greaterThan(0);",
+              "    const sum = segments.reduce((total, segment) => total + Number(segment.estimated_cost_usd), 0);",
+              "    pm.expect(Math.round(sum * 100) / 100).to.eql(Number(body.fuel_plan.estimated_total_fuel_cost_usd));",
+              "  });",
+              "if (body.fuel_plan.status === 'ok') {",
+              "  pm.test('All route legs are within the configured range', function () {",
+              "    const stops = body.fuel_plan.optimal_stops || [];",
+              "    const markers = stops.map(stop => Number(stop.route_mile_marker));",
+              "    const legs = markers.length === 0 ? [Number(body.route.distance_miles)] : [markers[0]];",
+              "    for (let i = 1; i < markers.length; i++) legs.push(markers[i] - markers[i - 1]);",
+              "    if (markers.length > 0) legs.push(Number(body.route.distance_miles) - markers[markers.length - 1]);",
+              "    const maxRange = Number(body.vehicle_assumptions.max_range_miles);",
+              "    pm.expect(legs.every(leg => leg >= 0 && leg <= maxRange + 0.01)).to.eql(true);",
+              "  });",
+              "}",
+              "}"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RouteFuel Intelligence</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    :root { color-scheme: light; font-family: Inter, system-ui, Segoe UI, sans-serif; }
+    body { margin: 0; background: #f4f6f8; color: #18212b; }
+    header { background: #102d42; color: white; padding: 20px 5vw; }
+    header h1 { margin: 0 0 5px; font-size: 1.35rem; }
+    header p { margin: 0; opacity: .86; font-size: .92rem; }
+    main { max-width: 1200px; margin: 22px auto; padding: 0 16px; }
+    form, .summary, .stops, .warning { background: white; border: 1px solid #dce3e9; border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+    .fields { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; }
+    label { display:block; font-size: .82rem; font-weight: 700; margin-bottom: 6px; }
+    input { width: 100%; box-sizing: border-box; border: 1px solid #becbd5; border-radius: 7px; padding: 11px; font-size: .95rem; }
+    button { border: 0; border-radius: 7px; background: #176b87; color: #fff; padding: 12px 18px; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .55; cursor: wait; }
+    #map { height: 480px; border: 1px solid #dce3e9; border-radius: 12px; background: #e8edf0; }
+    .summary-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .metric { background:#f6f9fb; border-radius:8px; padding:12px; }
+    .metric small { display:block; color:#526271; margin-bottom:5px; }
+    .metric strong { font-size:1.15rem; }
+    .stop { padding: 12px 0; border-bottom:1px solid #e4e9ed; }
+    .stop:last-child { border-bottom:0; }
+    .muted { color:#5a6975; font-size:.86rem; }
+    .error { color:#9f2020; }
+    @media(max-width:700px) { .fields, .summary-grid { grid-template-columns:1fr; } #map{height:380px;} }
+  </style>
+</head>
+<body>
+<header><h1>RouteFuel Intelligence</h1><p>Data-driven route planning, fuel-price analytics, and trip-cost optimization</p></header>
+<main>
+  <form id="route-form"><div class="fields">
+    <div><label for="start">Start location (USA)</label><input id="start" value="Austin, TX" required maxlength="200"></div>
+    <div><label for="finish">Finish location (USA)</label><input id="finish" value="Dallas, TX" required maxlength="200"></div>
+    <button id="submit" type="submit">Plan route</button>
+  </div></form>
+  <div id="message" class="warning" role="status">Choose US start and finish locations, then select Plan route.</div>
+  <section class="summary" id="summary" hidden></section>
+  <div id="map" aria-label="Driving route and planned fuel stop map"></div>
+  <section class="stops" id="stops" hidden><h2>Recommended fuel stops</h2><div id="stop-list"></div></section>
+  <p class="muted">Map: © OpenStreetMap contributors. Route: OSRM. Fuel coordinates are approximate city representative points because the supplied price file does not include station coordinates.</p>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+const map = L.map('map').setView([39.5, -98.35], 4);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+let routeLayer = null, stopLayer = null;
+const form = document.getElementById('route-form');
+const submit = document.getElementById('submit');
+const message = document.getElementById('message');
+const money = value => value == null ? 'Unavailable' : new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(value);
+form.addEventListener('submit', async event => {
+  event.preventDefault(); submit.disabled = true; message.className = 'warning'; message.textContent = 'Planning route…';
+  document.getElementById('summary').hidden = true; document.getElementById('stops').hidden = true;
+  try {
+    const response = await fetch('/api/v1/route-fuel/', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({start_location:document.getElementById('start').value, finish_location:document.getElementById('finish').value})});
+    const data = await response.json();
+    if (!response.ok && response.status !== 422) throw new Error(data.detail || JSON.stringify(data));
+    if (routeLayer) map.removeLayer(routeLayer); if (stopLayer) map.removeLayer(stopLayer);
+    routeLayer = L.geoJSON(data.route.geometry, {style:{color:'#176b87',weight:5,opacity:.85}}).addTo(map);
+    stopLayer = L.layerGroup().addTo(map);
+    data.fuel_plan.optimal_stops.forEach((stop, i) => {
+      const marker = L.marker([stop.coordinates.latitude, stop.coordinates.longitude]).addTo(stopLayer);
+      marker.bindPopup(`<strong>Stop ${i+1}: ${stop.name}</strong><br>${stop.city}, ${stop.state}<br>${money(stop.retail_price_per_gallon)}/gallon<br>Route mile ${stop.route_mile_marker}<br><em>Approximate city location</em>`);
+    });
+    const start = data.start.coordinates, finish = data.finish.coordinates;
+    L.circleMarker([start.latitude,start.longitude],{radius:7,color:'#247a46'}).addTo(stopLayer).bindPopup('Start: '+data.start.resolved_name);
+    L.circleMarker([finish.latitude,finish.longitude],{radius:7,color:'#b63c3c'}).addTo(stopLayer).bindPopup('Finish: '+data.finish.resolved_name);
+    map.fitBounds(routeLayer.getBounds(), {padding:[25,25]});
+    const summary = document.getElementById('summary');
+    summary.innerHTML = `<div class="summary-grid"><div class="metric"><small>Route distance</small><strong>${data.route.distance_miles.toLocaleString()} mi</strong></div><div class="metric"><small>Estimated drive time</small><strong>${data.route.duration_minutes.toLocaleString()} min</strong></div><div class="metric"><small>Fuel consumed</small><strong>${data.vehicle_assumptions.estimated_total_gallons_consumed} gal</strong></div><div class="metric"><small>Estimated fuel cost</small><strong>${money(data.fuel_plan.estimated_total_fuel_cost_usd)}</strong></div></div><p class="muted">${data.fuel_plan.cost_estimation_note || ''}</p>`;
+    summary.hidden = false;
+    const stopsSection = document.getElementById('stops'), stopList = document.getElementById('stop-list'); stopList.innerHTML = '';
+    if (data.fuel_plan.optimal_stops.length) {
+      data.fuel_plan.optimal_stops.forEach((s, i) => { const d = document.createElement('div'); d.className='stop'; d.innerHTML=`<strong>${i+1}. ${s.name}</strong> <span>${money(s.retail_price_per_gallon)}/gal</span><div>${s.city}, ${s.state} · Route mile ${s.route_mile_marker} · ${s.miles_to_next_stop_or_destination} mi to next point</div><div class="muted">Approximate city coordinate; ${s.distance_from_route_miles} mi from route geometry</div>`; stopList.appendChild(d); });
+    } else { stopList.textContent = 'No refueling stop is required by the 500-mile range rule. See the cost-estimation note above for the price assumption.'; }
+    stopsSection.hidden = false;
+    message.textContent = response.status === 422 ? 'Route found, but no fully feasible sequence of fuel stops was found in the current dataset.' : 'Route successfully planned. Inspect the route, stop markers, and estimate below.';
+    if (data.data_quality && data.data_quality.warning) message.title = data.data_quality.warning;
+  } catch (error) { message.className='warning error'; message.textContent='Unable to plan route: '+error.message; }
+  finally { submit.disabled = false; }
+});
+</script>
+</body>
+</html>

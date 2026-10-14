@@ -1,0 +1,417 @@
+{
+    "start":  {
+                  "input":  "New York, NY",
+                  "resolved_name":  "New York, United States",
+                  "coordinates":  {
+                                      "latitude":  40.7127281,
+                                      "longitude":  -74.0060152
+                                  }
+              },
+    "finish":  {
+                   "input":  "Chicago, IL",
+                   "resolved_name":  "Chicago, South Chicago Township, Cook County, Illinois, United States",
+                   "coordinates":  {
+                                       "latitude":  41.8755616,
+                                       "longitude":  -87.6244212
+                                   }
+               },
+    "route":  {
+                  "distance_miles":  790.57,
+                  "duration_minutes":  890.8,
+                  "geometry":  {
+                                   "coordinates":  [
+                                                       [
+                                                           -74.005737,
+                                                           40.712118
+                                                       ],
+                                                       [
+                                                           -74.507002,
+                                                           40.910544
+                                                       ],
+                                                       [
+                                                           -75.089791,
+                                                           40.927692
+                                                       ],
+                                                       [
+                                                           -75.398794,
+                                                           41.074644
+                                                       ],
+                                                       [
+                                                           -76.715363,
+                                                           40.986373
+                                                       ],
+                                                       [
+                                                           -76.930699,
+                                                           41.077196
+                                                       ],
+                                                       [
+                                                           -77.408902,
+                                                           41.069482
+                                                       ],
+                                                       [
+                                                           -77.726759,
+                                                           40.944459
+                                                       ],
+                                                       [
+                                                           -77.911119,
+                                                           41.024915
+                                                       ],
+                                                       [
+                                                           -78.104942,
+                                                           40.962662
+                                                       ],
+                                                       [
+                                                           -78.56955,
+                                                           41.126987
+                                                       ],
+                                                       [
+                                                           -79.215243,
+                                                           41.190507
+                                                       ],
+                                                       [
+                                                           -80.515546,
+                                                           41.185356
+                                                       ],
+                                                       [
+                                                           -80.831429,
+                                                           41.110897
+                                                       ],
+                                                       [
+                                                           -80.992467,
+                                                           41.240955
+                                                       ],
+                                                       [
+                                                           -81.584431,
+                                                           41.252847
+                                                       ],
+                                                       [
+                                                           -82.123581,
+                                                           41.391959
+                                                       ],
+                                                       [
+                                                           -82.524633,
+                                                           41.325816
+                                                       ],
+                                                       [
+                                                           -82.872834,
+                                                           41.353459
+                                                       ],
+                                                       [
+                                                           -83.638843,
+                                                           41.590142
+                                                       ],
+                                                       [
+                                                           -84.811938,
+                                                           41.628294
+                                                       ],
+                                                       [
+                                                           -85.125283,
+                                                           41.755429
+                                                       ],
+                                                       [
+                                                           -86.459293,
+                                                           41.755988
+                                                       ],
+                                                       [
+                                                           -86.873231,
+                                                           41.59485
+                                                       ],
+                                                       [
+                                                           -87.148318,
+                                                           41.57215
+                                                       ],
+                                                       [
+                                                           -87.487249,
+                                                           41.615956
+                                                       ],
+                                                       [
+                                                           -87.624351,
+                                                           41.875563
+                                                       ]
+                                                   ],
+                                   "type":  "LineString"
+                               },
+                  "geometry_format":  "GeoJSON LineString [longitude, latitude]",
+                  "source":  "OSRM / OpenStreetMap"
+              },
+    "vehicle_assumptions":  {
+                                "max_range_miles":  500.0,
+                                "miles_per_gallon":  10.0,
+                                "estimated_total_gallons_consumed":  79.06,
+                                "initial_tank_level":  "unspecified; total cost estimates the fuel consumed on the full route"
+                            },
+    "fuel_plan":  {
+                      "status":  "ok",
+                      "optimal_stops":  [
+                                            {
+                                                "station_id":  7555,
+                                                "truckstop_id":  "72445",
+                                                "name":  "SHEETZ #639",
+                                                "address":  "I-80 Exit 223",
+                                                "city":  "Youngstown",
+                                                "state":  "OH",
+                                                "retail_price_per_gallon":  3.059,
+                                                "route_mile_marker":  382.52,
+                                                "distance_from_route_miles":  3.658,
+                                                "coordinates":  {
+                                                                    "latitude":  41.099095,
+                                                                    "longitude":  -80.645902
+                                                                },
+                                                "coordinate_precision":  "city_representative_point_approximation",
+                                                "miles_to_next_stop_or_destination":  171.947,
+                                                "estimated_gallons_for_next_leg":  17.1947
+                                            },
+                                            {
+                                                "station_id":  7439,
+                                                "truckstop_id":  "72288",
+                                                "name":  "S\u0026G #88",
+                                                "address":  "I-475 Exit 13 \u0026 US-20",
+                                                "city":  "Toledo",
+                                                "state":  "OH",
+                                                "retail_price_per_gallon":  3.009,
+                                                "route_mile_marker":  554.467,
+                                                "distance_from_route_miles":  5.84,
+                                                "coordinates":  {
+                                                                    "latitude":  41.664071,
+                                                                    "longitude":  -83.581861
+                                                                },
+                                                "coordinate_precision":  "city_representative_point_approximation",
+                                                "miles_to_next_stop_or_destination":  236.103,
+                                                "estimated_gallons_for_next_leg":  23.6103
+                                            }
+                                        ],
+                      "number_of_stops":  2,
+                      "estimated_total_fuel_cost_usd":  240.65,
+                      "cost_basis_price_per_gallon_usd":  3.059,
+                      "cost_estimation_note":  "Cost covers all route mileage at 10 MPG. The first selected station price is used to estimate the opening segment because the vehicle\u0027s starting tank level and original fuel purchase are not specified; remaining route segments use the price at the preceding stop. Segment costs use the returned route-mile markers and displayed station prices; the reported total is the sum of segment costs rounded to cents. Stop selection is optimized using the underlying station-price and route-distance precision.",
+                      "candidate_stations_considered":  159,
+                      "corridor_width_miles":  25.0,
+                      "segment_estimates":  [
+                                                {
+                                                    "start_route_mile":  0.0,
+                                                    "end_route_mile":  382.52,
+                                                    "distance_miles":  382.52,
+                                                    "gallons":  38.252,
+                                                    "price_per_gallon_usd":  3.059,
+                                                    "estimated_cost_usd":  117.01
+                                                },
+                                                {
+                                                    "start_route_mile":  382.52,
+                                                    "end_route_mile":  554.467,
+                                                    "distance_miles":  171.947,
+                                                    "gallons":  17.1947,
+                                                    "price_per_gallon_usd":  3.059,
+                                                    "estimated_cost_usd":  52.6
+                                                },
+                                                {
+                                                    "start_route_mile":  554.467,
+                                                    "end_route_mile":  790.57,
+                                                    "distance_miles":  236.103,
+                                                    "gallons":  23.6103,
+                                                    "price_per_gallon_usd":  3.009,
+                                                    "estimated_cost_usd":  71.04
+                                                }
+                                            ]
+                  },
+    "data_quality":  {
+                         "fuel_price_records":  8125,
+                         "coordinate_method":  "2026 US Census Gazetteer place representative point matched to CSV city/state",
+                         "station_coordinates_are_exact":  false,
+                         "warning":  "The provided CSV has no station latitude/longitude. Fuel stations are positioned using their city\u0027s Census representative point, so the stop location and road offset are approximate. The source file also includes Canadian provinces; this USA-only route plan excludes stations outside US state codes."
+                     },
+    "map":  {
+                "type":  "FeatureCollection",
+                "features":  [
+                                 {
+                                     "type":  "Feature",
+                                     "properties":  {
+                                                        "kind":  "route",
+                                                        "label":  "Driving route"
+                                                    },
+                                     "geometry":  {
+                                                      "coordinates":  [
+                                                                          [
+                                                                              -74.005737,
+                                                                              40.712118
+                                                                          ],
+                                                                          [
+                                                                              -74.507002,
+                                                                              40.910544
+                                                                          ],
+                                                                          [
+                                                                              -75.089791,
+                                                                              40.927692
+                                                                          ],
+                                                                          [
+                                                                              -75.398794,
+                                                                              41.074644
+                                                                          ],
+                                                                          [
+                                                                              -76.715363,
+                                                                              40.986373
+                                                                          ],
+                                                                          [
+                                                                              -76.930699,
+                                                                              41.077196
+                                                                          ],
+                                                                          [
+                                                                              -77.408902,
+                                                                              41.069482
+                                                                          ],
+                                                                          [
+                                                                              -77.726759,
+                                                                              40.944459
+                                                                          ],
+                                                                          [
+                                                                              -77.911119,
+                                                                              41.024915
+                                                                          ],
+                                                                          [
+                                                                              -78.104942,
+                                                                              40.962662
+                                                                          ],
+                                                                          [
+                                                                              -78.56955,
+                                                                              41.126987
+                                                                          ],
+                                                                          [
+                                                                              -79.215243,
+                                                                              41.190507
+                                                                          ],
+                                                                          [
+                                                                              -80.515546,
+                                                                              41.185356
+                                                                          ],
+                                                                          [
+                                                                              -80.831429,
+                                                                              41.110897
+                                                                          ],
+                                                                          [
+                                                                              -80.992467,
+                                                                              41.240955
+                                                                          ],
+                                                                          [
+                                                                              -81.584431,
+                                                                              41.252847
+                                                                          ],
+                                                                          [
+                                                                              -82.123581,
+                                                                              41.391959
+                                                                          ],
+                                                                          [
+                                                                              -82.524633,
+                                                                              41.325816
+                                                                          ],
+                                                                          [
+                                                                              -82.872834,
+                                                                              41.353459
+                                                                          ],
+                                                                          [
+                                                                              -83.638843,
+                                                                              41.590142
+                                                                          ],
+                                                                          [
+                                                                              -84.811938,
+                                                                              41.628294
+                                                                          ],
+                                                                          [
+                                                                              -85.125283,
+                                                                              41.755429
+                                                                          ],
+                                                                          [
+                                                                              -86.459293,
+                                                                              41.755988
+                                                                          ],
+                                                                          [
+                                                                              -86.873231,
+                                                                              41.59485
+                                                                          ],
+                                                                          [
+                                                                              -87.148318,
+                                                                              41.57215
+                                                                          ],
+                                                                          [
+                                                                              -87.487249,
+                                                                              41.615956
+                                                                          ],
+                                                                          [
+                                                                              -87.624351,
+                                                                              41.875563
+                                                                          ]
+                                                                      ],
+                                                      "type":  "LineString"
+                                                  }
+                                 },
+                                 {
+                                     "type":  "Feature",
+                                     "properties":  {
+                                                        "kind":  "start",
+                                                        "label":  "Start",
+                                                        "resolved_name":  "New York, United States"
+                                                    },
+                                     "geometry":  {
+                                                      "type":  "Point",
+                                                      "coordinates":  [
+                                                                          -74.0060152,
+                                                                          40.7127281
+                                                                      ]
+                                                  }
+                                 },
+                                 {
+                                     "type":  "Feature",
+                                     "properties":  {
+                                                        "kind":  "finish",
+                                                        "label":  "Finish",
+                                                        "resolved_name":  "Chicago, South Chicago Township, Cook County, Illinois, United States"
+                                                    },
+                                     "geometry":  {
+                                                      "type":  "Point",
+                                                      "coordinates":  [
+                                                                          -87.6244212,
+                                                                          41.8755616
+                                                                      ]
+                                                  }
+                                 },
+                                 {
+                                     "type":  "Feature",
+                                     "properties":  {
+                                                        "kind":  "fuel_stop",
+                                                        "stop_number":  1,
+                                                        "name":  "SHEETZ #639",
+                                                        "city":  "Youngstown",
+                                                        "state":  "OH",
+                                                        "price_per_gallon":  3.059,
+                                                        "route_mile_marker":  382.52,
+                                                        "coordinate_precision":  "city_representative_point_approximation"
+                                                    },
+                                     "geometry":  {
+                                                      "type":  "Point",
+                                                      "coordinates":  [
+                                                                          -80.645902,
+                                                                          41.099095
+                                                                      ]
+                                                  }
+                                 },
+                                 {
+                                     "type":  "Feature",
+                                     "properties":  {
+                                                        "kind":  "fuel_stop",
+                                                        "stop_number":  2,
+                                                        "name":  "S\u0026G #88",
+                                                        "city":  "Toledo",
+                                                        "state":  "OH",
+                                                        "price_per_gallon":  3.009,
+                                                        "route_mile_marker":  554.467,
+                                                        "coordinate_precision":  "city_representative_point_approximation"
+                                                    },
+                                     "geometry":  {
+                                                      "type":  "Point",
+                                                      "coordinates":  [
+                                                                          -83.581861,
+                                                                          41.664071
+                                                                      ]
+                                                  }
+                                 }
+                             ]
+            }
+}

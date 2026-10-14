@@ -1,0 +1,51 @@
+{
+  "input_record_count": 8151,
+  "cleaned_record_count": 8125,
+  "quarantined_record_count": 0,
+  "schema_valid": true,
+  "encoding": "utf-8",
+  "used_bom": false,
+  "used_fallback_encoding": false,
+  "fallback_encoding": null,
+  "delimiter": ",",
+  "column_count": 7,
+  "header": [
+    "OPIS Truckstop ID",
+    "Truckstop Name",
+    "Address",
+    "City",
+    "State",
+    "Rack ID",
+    "Retail Price"
+  ],
+  "blank_cells": 0,
+  "whitespace_cells_normalized": 1356,
+  "malformed_rows": 0,
+  "invalid_price_count": 0,
+  "non_positive_price_count": 0,
+  "text_repairs": [
+    {
+      "row_number": 6526,
+      "column": "Truckstop Name",
+      "original": "Stuckey\u00e2\u20ac\u2122s Travel Center West",
+      "corrected": "Stuckey\u2019s Travel Center West",
+      "reason": "Documented mojibake repair"
+    }
+  ],
+  "exact_duplicate_groups": 15,
+  "exact_duplicate_extra_occurrences": 26,
+  "repeated_station_id_groups": 678,
+  "repeated_station_id_extra_occurrences": 1413,
+  "us_records": 7505,
+  "ca_records": 620,
+  "unknown_geo_records": 0,
+  "raw_min_price": "2.68733333",
+  "raw_max_price": "6.399",
+  "raw_mean_price": "3.498973929009937430990062569",
+  "raw_record_count": 8151,
+  "min_price": "2.68733333",
+  "max_price": "6.399",
+  "mean_price": "3.498908614813538461538461538",
+  "quarantined_rows": [],
+  "source_sha256": "c704371f141ded9c54df6c32d488a0ba2ceb589f88c936c967daa5330e0cd241"
+}
