@@ -187,6 +187,10 @@ git push -u origin main
 If the GitHub repo already exists, add the correct remote instead of repeating `git init`. Before committing, confirm `.env`, `db.sqlite3`, virtual environments, and `data/geo_cache/` are not staged. The supplied source CSV should remain in Git because the assessment requires it; include its source attribution/permission as supplied by the assessor.
 
 
+## Feature engineering
+
+Feature engineering in RouteFuel Intelligence is deterministic and domain-specific. The planner derives route-relative attributes for candidate fuel stations, including distance from the route geometry, cumulative route-mile marker, and distance to the next stop or destination, then filters candidates using a configurable route corridor. It evaluates feasible refuelling sequences against the 500-mile maximum-leg constraint and 10 MPG vehicle assumption, estimating gallons and segment costs from available retail-price records while preserving price precision. The data pipeline normalizes station fields and removes exact duplicate records; where station-level coordinates are unavailable, Census place representative points provide approximate locations. These engineered inputs support rule-constrained cost optimization; the current application does not train a machine-learning model or predict future fuel prices.
+
 ## Setup, operation, and handover
 
 For reproducible installation, local environment configuration, dataset preparation, API usage, Postman verification, and secret-safe delivery, follow [SETUP.md](SETUP.md). The current implementation uses public mapping/routing services and does not need a paid provider API key.
