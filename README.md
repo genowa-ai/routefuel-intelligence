@@ -186,9 +186,6 @@ git push -u origin main
 
 If the GitHub repo already exists, add the correct remote instead of repeating `git init`. Before committing, confirm `.env`, `db.sqlite3`, virtual environments, and `data/geo_cache/` are not staged. The supplied source CSV should remain in Git because the assessment requires it; include its source attribution/permission as supplied by the assessor.
 
-## Delivery checklist
-
-See `docs/THREE_DAY_EXECUTION_PLAN.md` for the time-boxed schedule and a sub-5-minute Loom walkthrough script. A ready-to-run Postman collection is included, but the GitHub push and Loom recording must be performed from your own accounts and machine; this workspace cannot authenticate to your GitHub or record a Loom video on your behalf.
 
 ## Setup, operation, and handover
 
